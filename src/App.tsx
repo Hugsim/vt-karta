@@ -1,15 +1,9 @@
 import "./App.css";
-import {
-    MapContainer,
-    TileLayer,
-    Marker,
-    Tooltip,
-    useMapEvent,
-    Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, GeoJSON, Popup } from "react-leaflet";
 import Wkt from "wicket";
 
 import zoneAWkt from "./assets/zone?raw";
+import gbgMuniWkt from "./assets/gbg_polygon?raw";
 import stopAreasImport from "./assets/allStopAreas_gbg.json";
 const stopAreas: StopAreas = stopAreasImport;
 import { latLng } from "leaflet";
@@ -18,8 +12,8 @@ import TypedLocalStore from "typed-local-store";
 import { useEffect, useState } from "react";
 
 const wkt = new Wkt.Wkt();
-wkt.read(zoneAWkt);
-const x = wkt.toJson();
+wkt.read(gbgMuniWkt);
+const municipality = wkt.toJson();
 
 type Storage = { visited: Array<number> };
 const typedStorage = new TypedLocalStore<Storage>();
@@ -76,7 +70,10 @@ const App = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {/* <GeoJSON data={x} style={{ color: '#ff0000', opacity: 0.0, fillOpacity: 0.1 }} /> */}
+                <GeoJSON
+                    data={municipality}
+                    style={{ color: "#ff0000", opacity: 0.0, fillOpacity: 0.1 }}
+                />
 
                 {stopAreas.stopAreas.map((stop: StopArea) => {
                     if (stop.abbreviation === null) return null;
