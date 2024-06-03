@@ -1,9 +1,22 @@
 import { StopCompletion } from "./App";
 
-type SidebarProps = { visited: Array<StopCompletion>; numStops: number };
+type SidebarProps = {
+    visited: Array<StopCompletion>;
+    numStops: number;
+    updateVisited: (newVisited: Array<StopCompletion>) => void;
+};
 
-export const Sidebar = ({ visited, numStops }: SidebarProps) => {
+export const Sidebar = ({ visited, numStops, updateVisited }: SidebarProps) => {
     const percentageDone = (100 * visited.length) / numStops;
+
+    const onExport = async () => {
+        await navigator.clipboard.writeText(JSON.stringify(visited));
+    };
+    const onImport = async () => {
+        const contents = await navigator.clipboard.readText();
+        updateVisited(JSON.parse(contents));
+    };
+
     return (
         <div className="sidebar-container">
             <span className="sidebar-header sidebar-card">
@@ -17,6 +30,10 @@ export const Sidebar = ({ visited, numStops }: SidebarProps) => {
                     className="sidebar-progressbar"
                     style={{ width: `${percentageDone}%` }}
                 />
+            </span>
+            <span className="sidebar-buttons">
+                <button onClick={onExport}>Exportera</button>
+                <button onClick={onImport}>Importera</button>
             </span>
 
             {visited

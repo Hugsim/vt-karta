@@ -42,6 +42,7 @@ const CustomMarker = ({ stop, visited, setVisited }: CustomMarkerProps) => {
         }
         setVisited(visited);
     };
+
     return (
         <Marker
             position={latLng(
@@ -127,7 +128,11 @@ const App = () => {
                     );
                 })}
             </MapContainer>
-            <Sidebar visited={visited} numStops={allNames.length}></Sidebar>
+            <Sidebar
+                visited={visited}
+                numStops={allNames.length}
+                updateVisited={updateVisited}
+            ></Sidebar>
         </>
     );
 };

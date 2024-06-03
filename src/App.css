@@ -43,7 +43,6 @@
     height: 10%;
     margin: 0px;
     align-content: center;
-    border-bottom: 2px solid gray;
 }
 
 .sidebar-header-title {
@@ -56,4 +55,8 @@
     display: block;
     height: 1vh;
     background-color: green;
+}
+
+.sidebar-buttons {
+    border-bottom: 2px solid gray;
 }
