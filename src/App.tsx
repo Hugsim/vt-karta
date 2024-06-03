@@ -10,6 +10,7 @@ import { PropsWithKey, StopArea, StopAreas } from "./types";
 import TypedLocalStore from "typed-local-store";
 import { useEffect, useState } from "react";
 import { Sidebar } from "./Sidebar";
+import allNames from "./assets/all_stop_names.json";
 
 const wkt = new Wkt.Wkt();
 wkt.read(gbgMuniWkt);
@@ -82,6 +83,21 @@ const App = () => {
         typedStorage.setItem("visited", visited);
     }, [visited]);
 
+    console.log("Antal i allStopAreas:", stopAreas.stopAreas.length);
+    console.log(
+        "Antal med shortName:",
+        stopAreas.stopAreas.filter((s) => s.shortName).length
+    );
+    console.log(
+        "Antal med abbreviation:",
+        stopAreas.stopAreas.filter((s) => s.abbreviation).length
+    );
+    console.log("Antal från VT:s hemsida:", allNames.length);
+
+    allNames
+        .filter((n) => !stopAreas.stopAreas.some((s) => s.name === n))
+        .map((n) => console.log("inte med", n));
+
     return (
         <>
             <MapContainer
@@ -99,7 +115,8 @@ const App = () => {
                 />
 
                 {stopAreas.stopAreas.map((stop: StopArea) => {
-                    if (stop.abbreviation === null) return null;
+                    if (!allNames.includes(stop.name)) return null;
+
                     return (
                         <CustomMarker
                             key={stop.number}
@@ -110,7 +127,7 @@ const App = () => {
                     );
                 })}
             </MapContainer>
-            <Sidebar visited={visited}></Sidebar>
+            <Sidebar visited={visited} numStops={allNames.length}></Sidebar>
         </>
     );
 };

@@ -1,11 +1,24 @@
 import { StopCompletion } from "./App";
 
-type SidebarProps = { visited: Array<StopCompletion> };
+type SidebarProps = { visited: Array<StopCompletion>; numStops: number };
 
-export const Sidebar = ({ visited }: SidebarProps) => {
+export const Sidebar = ({ visited, numStops }: SidebarProps) => {
+    const percentageDone = (100 * visited.length) / numStops;
     return (
         <div className="sidebar-container">
-            <span className="sidebar-header">Besökta</span>
+            <span className="sidebar-header sidebar-card">
+                <span className="sidebar-header-title">Besökta</span>
+                <span className="sidebar-percentage">{`${
+                    visited.length
+                }/${numStops} (${
+                    Math.round(percentageDone * 100) / 100
+                }%)`}</span>
+                <span
+                    className="sidebar-progressbar"
+                    style={{ width: `${percentageDone}%` }}
+                />
+            </span>
+
             {visited
                 .sort(
                     (a, b) =>

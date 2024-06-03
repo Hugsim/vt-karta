@@ -38,11 +38,22 @@
 }
 
 .sidebar-header {
-    font: lighter xx-large "Alegreya SC";
     font-weight: lighter;
     width: 100%;
-    height: 5%;
+    height: 10%;
     margin: 0px;
     align-content: center;
     border-bottom: 2px solid gray;
+}
+
+.sidebar-header-title {
+    font: lighter xx-large "Alegreya SC";
+    width: 100%;
+    display: block;
+}
+
+.sidebar-progressbar {
+    display: block;
+    height: 1vh;
+    background-color: green;
 }
